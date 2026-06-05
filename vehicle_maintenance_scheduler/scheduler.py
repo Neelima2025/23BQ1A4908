@@ -2,7 +2,7 @@ import os
 import sys
 import requests
 
-# Dynamically import the logging middleware from your peer directory
+
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 try:
     from logging_middleware.app import AffordMedService
@@ -11,11 +11,11 @@ except ImportError:
     AffordMedService = None
 
 BASE_URL = "http://4.224.186.213/evaluation-service"
-# Looks for the .env file in the parent root directory
+
 ENV_FILE = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".env"))
 
 def load_env():
-    """Manually reads the hidden .env file from the root folder into system environment variables."""
+    
     if not os.path.exists(ENV_FILE):
         print(f"[CRITICAL] Configuration file '{ENV_FILE}' is missing.")
         sys.exit(1)
@@ -29,13 +29,13 @@ def load_env():
 class MaintenanceScheduler:
     def __init__(self):
         load_env()
-        # Initialize logging middleware and authenticate
+       
         self.logger = AffordMedService() if AffordMedService else None
         if self.logger:
             self.logger.initialize_system()
 
     def get_headers(self):
-        """Helper to build authorization headers using the acquired token."""
+        
         if self.logger and self.logger.access_token:
             return {
                 "Authorization": f"Bearer {self.logger.access_token}",
@@ -44,7 +44,7 @@ class MaintenanceScheduler:
         return {}
 
     def fetch_depots(self):
-        """Fetches all depot structural definitions from the service api using auth token."""
+      
         try:
             res = requests.get(f"{BASE_URL}/depots", headers=self.get_headers())
             if res.status_code == 200:
@@ -56,7 +56,7 @@ class MaintenanceScheduler:
             return []
 
     def fetch_vehicles(self):
-        """Fetches all operational task profiles pending maintenance using auth token."""
+        
         try:
             res = requests.get(f"{BASE_URL}/vehicles", headers=self.get_headers())
             if res.status_code == 200:
@@ -68,10 +68,7 @@ class MaintenanceScheduler:
             return []
 
     def optimize_knapsack(self, tasks, max_hours):
-        """
-        Pure Dynamic Programming optimization implementation for the 0/1 Knapsack structure.
-        Maximizes impact score while adhering strictly to mechanic-hour capacities.
-        """
+        
         n = len(tasks)
         dp = [[0 for _ in range(max_hours + 1)] for _ in range(n + 1)]
 
