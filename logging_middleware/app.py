@@ -6,7 +6,7 @@ BASE_URL = "http://4.224.186.213/evaluation-service"
 ENV_FILE = ".env"
 
 def load_env():
-    """Manually reads the hidden .env file into the system memory environment."""
+    
     if not os.path.exists(ENV_FILE):
         print(f"[CRITICAL] Configuration file '{ENV_FILE}' is missing.")
         sys.exit(1)
@@ -18,7 +18,7 @@ def load_env():
                 os.environ[key.strip()] = val.strip().strip('"').strip("'")
 
 def update_env_file(key, value):
-    """Automatically updates your local .env file with generated credentials."""
+   
     lines = []
     key_exists = False
     if os.path.exists(ENV_FILE):
@@ -51,7 +51,7 @@ class AffordMedService:
         self.access_token = None
 
     def initialize_system(self):
-        """Checks configuration: registers if keys are missing, then authenticates."""
+       
         
         if not self.client_id or not self.client_secret:
             print("[INIT] Missing API credentials. Running registration sequence...")
@@ -106,7 +106,7 @@ class AffordMedService:
             return False
 
     def log(self, stack: str, level: str, package: str, message: str):
-        """Reusable backend system logging middleware action matching exact specifications."""
+       
         if not self.access_token:
             print("[WARN] Post blocked: Session unauthorized.")
             return False
