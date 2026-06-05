@@ -62,6 +62,14 @@
     }
   }
 }
+```
+---
+
+## Stage 2: Persistent Storage Strategy
+
+### 1. Database Schema Design
+
+```sql
 CREATE TYPE notification_enum AS ENUM ('Event', 'Result', 'Placement');
 
 CREATE TABLE notifications (
@@ -81,3 +89,4 @@ CREATE TABLE student_notification_states (
 );
 CREATE INDEX idx_student_unread_lookup 
 ON student_notification_states (student_id, is_read, updated_at DESC);
+```
